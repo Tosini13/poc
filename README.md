@@ -15,3 +15,4 @@ It's my personal project where I want to try libraries and styles of wrtiting to
 [webpack and babel](https://javascript.plainenglish.io/create-a-react-app-from-scratch-in-2021-8e9948602e9c)
 [Webpack with typescript](https://blog.logrocket.com/using-webpack-typescript/)
 [Readme editor](https://www.makeareadme.com/)
+[APIs](https://apipheny.io/free-api/)
