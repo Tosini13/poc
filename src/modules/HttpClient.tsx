@@ -24,26 +24,30 @@ const HttpClient: React.FC<HttpClientPropsType> = () => {
     <>
       <button onClick={refetch}>REFETCH</button>
       <table data-test-id="http_client">
-        <tr>
-          <th>API</th>
-          <th>Auth</th>
-          <th>Category</th>
-          <th>Cors</th>
-          <th>Description</th>
-          <th>HTTPS</th>
-          <th>Link</th>
-        </tr>
-        {data?.entries.map((api) => (
+        <thead>
           <tr>
-            <td>{api.API}</td>
-            <td>{api.Auth}</td>
-            <td>{api.Category}</td>
-            <td>{api.Cors}</td>
-            <td>{api.Description}</td>
-            <td>{api.HTTPS}</td>
-            <td>{api.Link}</td>
+            <th>API</th>
+            <th>Auth</th>
+            <th>Category</th>
+            <th>Cors</th>
+            <th>Description</th>
+            <th>HTTPS</th>
+            <th>Link</th>
           </tr>
-        ))}
+        </thead>
+        <tbody>
+          {data?.entries.map((api) => (
+            <tr key={`${api.API}${api.Link}`}>
+              <td>{api.API}</td>
+              <td>{api.Auth}</td>
+              <td>{api.Category}</td>
+              <td>{api.Cors}</td>
+              <td>{api.Description}</td>
+              <td>{api.HTTPS}</td>
+              <td>{api.Link}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     </>
   );
