@@ -1,13 +1,8 @@
 import { createRoot } from "react-dom/client";
-import React from "react";
-import HttpClient from "./modules/HttpClient";
+import Routes from "./routes";
+
 const App = () => {
-  return (
-    <>
-      <h1>This is my React app!</h1>
-      <HttpClient />
-    </>
-  );
+  return <Routes />;
 };
 const root = createRoot(document.getElementById("app"));
 root.render(<App />);
