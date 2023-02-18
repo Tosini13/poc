@@ -1,9 +1,9 @@
 import React from "react";
-import type { CustomResponseType } from "./httpClientTypes";
+import type { CustomResponseType, FetchReturnType } from "./httpClientTypes";
 
 export const useFetch = <GenericDataType>(
   clientFetch: () => Promise<CustomResponseType<GenericDataType>>
-) => {
+): FetchReturnType<GenericDataType> => {
   const [loading, setLoading] = React.useState<boolean>();
   const [data, setData] = React.useState<
     CustomResponseType<GenericDataType>["data"] | undefined

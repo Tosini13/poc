@@ -1,4 +1,5 @@
 import React from "react";
+import FreeApisTable from "../components/FreeApisTable";
 import { fetchApi } from "../proofs/http-client/fetchAPI";
 import { useFetch } from "../proofs/http-client/httpClientUtils";
 
@@ -11,45 +12,11 @@ const HttpClient: React.FC<HttpClientPropsType> = () => {
     return <p>...Loading</p>;
   }
 
-  if (error) {
-    return (
-      <>
-        <p>There was an error: {error.message}</p>
-        <button onClick={refetch}>REFETCH</button>
-      </>
-    );
-  }
-
   return (
-    <>
+    <div>
       <button onClick={refetch}>REFETCH</button>
-      <table data-test-id="http_client">
-        <thead>
-          <tr>
-            <th>API</th>
-            <th>Auth</th>
-            <th>Category</th>
-            <th>Cors</th>
-            <th>Description</th>
-            <th>HTTPS</th>
-            <th>Link</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data?.entries.map((api) => (
-            <tr key={`${api.API}${api.Link}`}>
-              <td>{api.API}</td>
-              <td>{api.Auth}</td>
-              <td>{api.Category}</td>
-              <td>{api.Cors}</td>
-              <td>{api.Description}</td>
-              <td>{api.HTTPS}</td>
-              <td>{api.Link}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+      <FreeApisTable data={data} error={error} />
+    </div>
   );
 };
 
