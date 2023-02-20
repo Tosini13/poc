@@ -1,8 +1,21 @@
 import { NavLink, Outlet } from "react-router-dom";
+import Like from "../components/Like";
+import {
+  dislikeAction,
+  likeAction,
+} from "../proofs/redux/reducers/RootReducerBuilder";
+import { useAppDispatch, useAppSelector } from "../proofs/redux/toolkit/store";
 
 type MainLayoutPropsType = {};
 
 const MainLayout: React.FC<MainLayoutPropsType> = ({}) => {
+  const selector = useAppSelector((state) => ({
+    like: state.like,
+    dislike: state.dislike,
+  }));
+
+  const dispatch = useAppDispatch();
+
   return (
     <>
       <header style={{ display: "flex" }}>
@@ -14,6 +27,22 @@ const MainLayout: React.FC<MainLayoutPropsType> = ({}) => {
           <NavLink to="/http-client/axios">Axios</NavLink>
           <NavLink to={"/contact"}>Contact</NavLink>
         </nav>
+        <Like
+          liked={selector.like === "LIKED"}
+          disliked={selector.dislike === "DISLIKED"}
+          handleLike={() =>
+            dispatch(
+              likeAction(selector.like === "LIKED" ? "NOT_LIKED" : "LIKED")
+            )
+          }
+          handleDislike={() =>
+            dispatch({
+              type: dislikeAction.toString(),
+              payload:
+                selector.dislike === "DISLIKED" ? "NOT_DISLIKED" : "DISLIKED",
+            })
+          }
+        />
       </header>
       <main>
         <Outlet />
