@@ -18,3 +18,4 @@ It's my personal project where I want to try libraries and styles of wrtiting to
 [APIs](https://apipheny.io/free-api/)
 [react-router-dom](https://reactrouter.com/en/main/start/overview)
 [Jest](https://blog.logrocket.com/testing-typescript-apps-using-jest/)
+[Algorithms & Complexity](https://medium.com/analytics-vidhya/big-o-notation-time-complexity-in-javascript-f97f356de2c4)
