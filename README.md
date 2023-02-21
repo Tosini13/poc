@@ -17,3 +17,4 @@ It's my personal project where I want to try libraries and styles of wrtiting to
 [Readme editor](https://www.makeareadme.com/)
 [APIs](https://apipheny.io/free-api/)
 [react-router-dom](https://reactrouter.com/en/main/start/overview)
+[Jest](https://blog.logrocket.com/testing-typescript-apps-using-jest/)
