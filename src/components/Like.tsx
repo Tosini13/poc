@@ -15,7 +15,7 @@ const Like: React.FC<LikePropsType> = ({
     <div data-test-id="like">
       <p
         onClick={handleLike}
-        style={{ color: liked ? "green" : "initial", cursor: "pointer" }}
+        style={{ color: liked ? "tan" : "initial", cursor: "pointer" }}
       >
         Like
       </p>

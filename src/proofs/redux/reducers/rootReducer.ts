@@ -1,8 +1,11 @@
 import { Reducer } from "react";
 
+export const LIKE_VALUES = ["LIKED", "NOT_LIKED"] as const;
+export const DISLIKE_VALUES = ["DISLIKED", "NOT_DISLIKED"] as const;
+
 export type StateType = {
-  like: "LIKED" | "NOT_LIKED";
-  dislike: "DISLIKED" | "NOT_DISLIKED";
+  like: typeof LIKE_VALUES[number];
+  dislike: typeof DISLIKE_VALUES[number];
 };
 
 export type ActionsType =

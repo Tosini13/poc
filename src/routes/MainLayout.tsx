@@ -4,6 +4,7 @@ import {
   dislikeAction,
   likeAction,
 } from "../proofs/redux/reducers/RootReducerBuilder";
+import { likeThunk } from "../proofs/redux/thunks/likeThunks";
 import { useAppDispatch, useAppSelector } from "../proofs/redux/toolkit/store";
 
 type MainLayoutPropsType = {};
@@ -32,7 +33,8 @@ const MainLayout: React.FC<MainLayoutPropsType> = ({}) => {
           disliked={selector.dislike === "DISLIKED"}
           handleLike={() =>
             dispatch(
-              likeAction(selector.like === "LIKED" ? "NOT_LIKED" : "LIKED")
+              // likeAction(selector.like === "LIKED" ? "NOT_LIKED" : "LIKED")
+              likeThunk(selector.like === "LIKED" ? "NOT_LIKED" : "LIKED")
             )
           }
           handleDislike={() =>
