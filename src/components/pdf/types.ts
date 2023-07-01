@@ -4,6 +4,7 @@ export type PDFComponentProps = {
 };
 
 export type ReductionType = {
+  id: string;
   value: number;
   title: string;
 };
@@ -11,6 +12,6 @@ export type ReductionType = {
 export type FormType = {
   dateOfIssue: string;
   workedHours: number;
-  reduction: ReductionType[];
+  reductions: ReductionType[];
   plnPerHour: number;
 };

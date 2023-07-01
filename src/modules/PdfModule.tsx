@@ -86,8 +86,9 @@ const MyDocument = () => {
 const DEFAULT_FORM_DATA: FormType = {
   dateOfIssue: new Date().toLocaleDateString("en-CA"),
   workedHours: 160,
-  reduction: [
+  reductions: [
     {
+      id: crypto.randomUUID(),
       title: "Medicover Sport",
       value: 77,
     },
@@ -106,13 +107,14 @@ const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
    */
   const invoiceNumber = getInvoiceNumberByMonth(new Date(DATE_OF_ISSUE));
 
-  const { register, handleSubmit, watch } = useForm<FormType>({
-    defaultValues: DEFAULT_FORM_DATA,
-  });
+  const { register, handleSubmit, watch, getValues, setValue } =
+    useForm<FormType>({
+      defaultValues: DEFAULT_FORM_DATA,
+    });
 
   const plnPerHour = watch("plnPerHour");
   const workedHours = watch("workedHours");
-  const reduction = watch("reduction");
+  const reduction = watch("reductions");
   const dateOfIssue = watch("dateOfIssue");
 
   return (
@@ -127,7 +129,19 @@ const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
         <InvoiceForm
           register={register}
           handleSubmit={handleSubmit}
-          reductionDefaultQty={1}
+          reductions={watch("reductions")}
+          addNewReduction={() =>
+            setValue("reductions", [
+              ...getValues("reductions"),
+              { id: crypto.randomUUID(), title: "", value: 0 },
+            ])
+          }
+          removeReduction={(reductionId: string) => {
+            const newReductions = getValues("reductions").filter(
+              ({ id }) => id !== reductionId
+            );
+            setValue("reductions", newReductions);
+          }}
         />
         <PDFDownloadLink
           document={
