@@ -31,7 +31,7 @@ const router = createBrowserRouter(
         <Route path="http-client">
           <Route
             path="fetch-by-router"
-            loader={async () => fetchApi()}
+            loader={async () => fetchApi("")}
             errorElement={<p>There was an error</p>}
             element={<FetchByRouter />}
           />

@@ -6,7 +6,9 @@ import { useFetch } from "../proofs/http-client/httpClientUtils";
 type HttpClientPropsType = {};
 
 const HttpClient: React.FC<HttpClientPropsType> = () => {
-  const { loading, data, error, refetch } = useFetch(fetchApi);
+  const { loading, data, error, refetch } = useFetch(
+    fetchApi("https://api.publicapis.org/entries")
+  );
 
   if (loading) {
     return <p>...Loading</p>;

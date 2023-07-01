@@ -12,10 +12,11 @@ import Invoice, {
   dateFormat,
   getInvoiceNumberByMonth,
 } from "../components/pdf/invoice";
-import { DATE_OF_ISSUE, NBP_RATE } from "../components/pdf/INVOICE_INPUT";
+import { DATE_OF_ISSUE } from "../components/pdf/INVOICE_INPUT";
 import InvoiceForm from "../components/pdf/InvoiceForm";
 import { useForm } from "react-hook-form";
 import { FormType } from "../components/pdf/types";
+import { useNbpRate } from "../components/pdf/useNbpRate";
 
 const styles = StyleSheet.create({
   page: {
@@ -97,6 +98,8 @@ const DEFAULT_FORM_DATA: FormType = {
 type PdfModulePropsType = {};
 
 const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
+  const { data } = useNbpRate("USD");
+  const nbpRate = data?.rates[0].mid ?? 0;
   /**
    * @todo increase lib to es2021 - to use replaceAll
    * 14 651,00 PLN
@@ -132,7 +135,7 @@ const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
               reduction={reduction}
               plnPerHour={plnPerHour}
               workedHours={workedHours}
-              nbpRate={NBP_RATE}
+              nbpRate={nbpRate}
               dateOfIssue={dateOfIssue}
             />
           }
@@ -161,7 +164,7 @@ const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
               reduction={reduction}
               plnPerHour={plnPerHour}
               workedHours={workedHours}
-              nbpRate={NBP_RATE}
+              nbpRate={nbpRate}
               dateOfIssue={dateOfIssue}
             />
           </PDFViewer>

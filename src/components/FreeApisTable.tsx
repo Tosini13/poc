@@ -1,4 +1,4 @@
-import { FetchApiResponseType } from "../proofs/http-client/fetchAPI";
+import { FetchApiResponseType } from "../proofs/http-client/types";
 
 type FreeApisTablePropsType = FetchApiResponseType;
 
