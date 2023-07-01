@@ -11,6 +11,7 @@ import { useFetch } from "../proofs/http-client/httpClientUtils";
 import { withRouterLoader } from "../proofs/http-client/routerLoader";
 import GlobalLoading from "./GlobalLoading";
 import MainLayout from "./MainLayout";
+import PdfModule from "../modules/PdfModule";
 
 const FetchByRouter = withRouterLoader(FreeApisTable);
 
@@ -23,6 +24,7 @@ const router = createBrowserRouter(
           <>
             <GlobalLoading />
             <MainLayout />
+            <PdfModule />
           </>
         }
       >
@@ -37,6 +39,7 @@ const router = createBrowserRouter(
           <Route path="axios" element={<p>Axios</p>} />
         </Route>
         <Route path="contact" element={<p>Contact</p>} />
+        <Route path="pdf" element={<PdfModule />} />
       </Route>
     </>
   )

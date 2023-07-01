@@ -1,9 +1,9 @@
 import { NavLink, Outlet } from "react-router-dom";
 import Like from "../components/Like";
-import {
-  dislikeAction,
-  likeAction,
-} from "../proofs/redux/reducers/RootReducerBuilder";
+// import {
+//   dislikeAction,
+//   likeAction,
+// } from "../proofs/redux/reducers/RootReducerBuilder";
 import { useAppDispatch, useAppSelector } from "../proofs/redux/toolkit/store";
 
 type MainLayoutPropsType = {};
@@ -26,8 +26,9 @@ const MainLayout: React.FC<MainLayoutPropsType> = ({}) => {
           <NavLink to={"/http-client/fetch-api"}>Fetch API</NavLink>
           <NavLink to="/http-client/axios">Axios</NavLink>
           <NavLink to={"/contact"}>Contact</NavLink>
+          <NavLink to={"/pdf"}>PDF</NavLink>
         </nav>
-        <Like
+        {/* <Like
           liked={selector.like === "LIKED"}
           disliked={selector.dislike === "DISLIKED"}
           handleLike={() =>
@@ -42,7 +43,7 @@ const MainLayout: React.FC<MainLayoutPropsType> = ({}) => {
                 selector.dislike === "DISLIKED" ? "NOT_DISLIKED" : "DISLIKED",
             })
           }
-        />
+        /> */}
       </header>
       <main>
         <Outlet />

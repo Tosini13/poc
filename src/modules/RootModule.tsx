@@ -1,5 +1,7 @@
 import { Link, Outlet } from "react-router-dom";
-
+/**
+ * Real compontn is in MainLayout
+ */
 type RootModulePropsType = {};
 
 const RootModule: React.FC<RootModulePropsType> = () => {
@@ -12,6 +14,7 @@ const RootModule: React.FC<RootModulePropsType> = () => {
           {/* <a href="/http-client/fetch-api">Axios</a> */}
           <Link to="/http-client/axios">Axios</Link>
           <Link to={"/contact"}>Contact</Link>
+          <Link to={"/pdf"}>PDF</Link>
         </nav>
       </header>
       <main>
