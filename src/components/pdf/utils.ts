@@ -3,5 +3,5 @@ export const formatPrice =
     new Intl.NumberFormat(local, {
       style: "currency",
       currency,
-      currencyDisplay: "narrowSymbol",
+      currencyDisplay: "symbol",
     }).format(number);

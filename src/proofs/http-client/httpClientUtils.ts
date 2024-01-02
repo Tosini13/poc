@@ -2,7 +2,7 @@ import React from "react";
 import type { CustomResponseType, FetchReturnType } from "./httpClientTypes";
 
 export const useFetch = <GenericDataType>(
-  clientFetch: () => Promise<CustomResponseType<GenericDataType>>
+  clientFetch: () => Promise<CustomResponseType<GenericDataType>>,
 ): FetchReturnType<GenericDataType> => {
   const [loading, setLoading] = React.useState<boolean>();
   const [data, setData] = React.useState<
@@ -19,7 +19,7 @@ export const useFetch = <GenericDataType>(
       setError(error);
       setLoading(false);
     });
-  }, []);
+  }, [clientFetch]);
 
   React.useEffect(() => {
     fetch();

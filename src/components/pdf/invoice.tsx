@@ -4,7 +4,7 @@ import { Translation, Text } from "./TextFormat";
 import { formatPrice } from "./utils";
 import { ReductionType } from "./types";
 
-const getDayBefore = (date: Date) => {
+export const getDayBefore = (date: Date) => {
   const yesterday = new Date(date);
   yesterday.setDate(yesterday.getDate() - 1);
   return yesterday;
@@ -35,6 +35,7 @@ const getLastDayOfMonth = (date: Date) => {
 export const getInvoiceNumberByMonth = (date: Date) => date.getMonth() + 1;
 
 const formatUSDPrice = formatPrice("us-US", "USD");
+const formatEURPrice = formatPrice("en-EN", "EUR");
 const formatPLNPrice = (price: number) =>
   formatPrice("pl-PL", "PLN")(price).replace("zł", "PLN");
 
@@ -62,24 +63,33 @@ const styles = StyleSheet.create({
 const addReduction = (acc: number, { value }: ReductionType) => +value + acc;
 
 type InvoicePropsType = {
-  plnPerHour: number;
+  // plnPerHour: number;
+  eurPerHour: number;
   workedHours: number;
   reduction: ReductionType[];
   dateOfIssue: string;
   nbpRate: number;
+  currency: string;
+  invoiceNumber: number;
 };
 
 const Invoice: React.FC<InvoicePropsType> = ({
-  plnPerHour,
+  // plnPerHour,
+  eurPerHour,
   workedHours,
   reduction,
   nbpRate,
   dateOfIssue,
+  currency,
+  invoiceNumber
 }) => {
   const totalReduction = reduction.reduce(addReduction, 0);
 
-  const pln = plnPerHour * workedHours - totalReduction;
+  const pln = 0 //plnPerHour * workedHours - totalReduction;
   const usd = Number((pln / nbpRate).toFixed(2));
+  const eur = eurPerHour * workedHours - totalReduction;
+  const plnFromEur = Number((eur * nbpRate).toFixed(2));
+  console.log("plnFromEur !log", plnFromEur);
 
   const rateDate = dateFormat(getDayBefore(new Date(dateOfIssue)));
 
@@ -91,9 +101,9 @@ const Invoice: React.FC<InvoicePropsType> = ({
   const WORK_DESCRIPTION_PL = `Praca wykonana w dniach ${workingRangeDates}`;
   const ISSUE_DATE = dateFormat(new Date(dateOfIssue));
   const TRANSACTION_DATE = dateFormat(getNext14Days(new Date(dateOfIssue)));
-  const invoiceNumber = getInvoiceNumberByMonth(new Date(dateOfIssue));
+  // const invoiceNumber = getInvoiceNumberByMonth(new Date(dateOfIssue));
 
-  const data = {
+  const dataSkyGate = {
     from: {
       name: "Jakub Bartosik APPS",
       address: "ul. Himalajska 47/2, 71-497 Szczecin, Poland",
@@ -144,6 +154,61 @@ const Invoice: React.FC<InvoicePropsType> = ({
     },
     issuer: "Jakub Bartosik",
   };
+
+
+  const dataDevTech = {
+    from: {
+      name: "Jakub Bartosik APPS",
+      address: "ul. Himalajska 47/2, 71-497 Szczecin, Poland",
+      nip: "8513251941",
+    },
+    to: {
+      name: "DevTech.Pro",
+      address:
+        "Narva mnt 5, 10117 Tallinn, Harju maakond, Estonia",
+    },
+    placeOfIssue: "Szczecin, Poland",
+    dateOfSale: ISSUE_DATE,
+    dateOfIssue: ISSUE_DATE,
+    invoiceNumber: `FS ${invoiceNumber}/2023`,
+    items: [
+      {
+        name: `IT service in accordance with the contract for the provision of programming services of November 1, 2023. ${WORK_DESCRIPTION}`,
+        nameTranslation: `Usluga informatyczna zgodnie z umowa o swiadczenie uslug programistycznych z dnia 1 Listopada 2023 ${WORK_DESCRIPTION_PL}`,
+        quantity: 1,
+        discount: 0,
+        netPrice: formatEURPrice(eur),
+        netValue: formatEURPrice(eur),
+        vat: "untaxed",
+        vaValue: 0,
+        grossValue: formatEURPrice(eur),
+      },
+    ],
+    plnTable: {
+      vatRateName: "untaxed",
+      netValue: formatPLNPrice(plnFromEur),
+      vatAmount: 0,
+      grossValue: formatPLNPrice(plnFromEur),
+    },
+    totalDue: formatEURPrice(eur),
+    description: {
+      transactionDueTime: TRANSACTION_DATE,
+      account: {
+        number: "BE36 9678 1542 2681",
+        swift: "TRWIBEB1XXX",
+        bank: "wise",
+        currency: "EUR",
+      },
+      rate: {
+        date: rateDate,
+        rate: nbpRate,
+      },
+    },
+    issuer: "Jakub Bartosik",
+  };
+
+
+  const data = dataDevTech;
 
   return (
     <Document>
@@ -210,7 +275,7 @@ const Invoice: React.FC<InvoicePropsType> = ({
             <View style={{ width: "100%", textAlign: "left" }}>
               <Text>{data.to.name}</Text>
               <Text>{data.to.address}</Text>
-              <Text>{data.to.ein}</Text>
+              {/* <Text>{data.to.ein}</Text> */}
             </View>
           </View>
         </View>
@@ -246,7 +311,7 @@ const Invoice: React.FC<InvoicePropsType> = ({
             <TableHeader style={styles.header}>
               <Text>Net Price</Text>
               <Translation>Cena netto</Translation>
-              <Text>(USD)</Text>
+              <Text>{currency}</Text>
             </TableHeader>
             <TableHeader style={styles.header}>
               <Text>VAT</Text>
@@ -255,18 +320,18 @@ const Invoice: React.FC<InvoicePropsType> = ({
             <TableHeader style={styles.header}>
               <Text>Net Value</Text>
               <Translation>Wartosc netto</Translation>
-              <Text>(USD)</Text>
+              <Text>{currency}</Text>
             </TableHeader>
             <TableHeader style={{ ...styles.header, width: "7.5%" }}>
               <Text>VAT</Text>
               <Text>Value</Text>
               <Translation>Wartosc VAT</Translation>
-              <Text>(USD)</Text>
+              <Text>{currency}</Text>
             </TableHeader>
             <TableHeader style={{ ...styles.header, borderRight: 0 }}>
               <Text>Gross Value</Text>
               <Translation>Wartosc brutto</Translation>
-              <Text>(USD)</Text>
+              <Text>{currency}</Text>
             </TableHeader>
           </TableRow>
           {data.items.map((item, index) => (
@@ -353,7 +418,7 @@ const Invoice: React.FC<InvoicePropsType> = ({
         <Table style={{ width: "70%", marginLeft: "auto" }}>
           <TableRow>
             <TableHeader style={{ width: "50%" }}>
-              <Text>Total due (USD)</Text>
+              <Text>Total due {currency}</Text>
               <Translation>Razem do zaplaty</Translation>
             </TableHeader>
             <TableCell style={{ width: "50%", border: 0 }}>
@@ -402,7 +467,7 @@ const Invoice: React.FC<InvoicePropsType> = ({
             </TableCell>
             <TableCell style={{ width: "50%", textAlign: "left", border: 0 }}>
               <Text>
-                {data.description.rate.date} 1 USD ={" "}
+                {data.description.rate.date} 1 {currency} ={" "}
                 {data.description.rate.rate} PLN
               </Text>
             </TableCell>

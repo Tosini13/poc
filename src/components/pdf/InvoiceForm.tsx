@@ -1,6 +1,5 @@
-import { UseFormHandleSubmit, UseFormRegister, useForm } from "react-hook-form";
+import { UseFormHandleSubmit, UseFormRegister } from "react-hook-form";
 import { FormType, ReductionType } from "./types";
-import { useState } from "react";
 
 type InvoiceFormPropsType = {
   register: UseFormRegister<FormType>;
@@ -24,11 +23,16 @@ const InvoiceForm: React.FC<InvoiceFormPropsType> = ({
     <label htmlFor="dateOfIssue">Date of issue</label>
     <input id="dateOfIssue" {...register("dateOfIssue")} type="date" />
     <br />
+    <label htmlFor="invoiceNumber">Invoice Number</label>
+    <input id="invoiceNumber" {...register("invoiceNumber")} type="number" />
+    <br />
     <label htmlFor="workedHours">Worked hours</label>
     <input id="workedHours" {...register("workedHours")} type="number" />
     <br />
-    <label htmlFor="plnPerHour">PLN per Hour</label>
-    <input id="plnPerHour" {...register("plnPerHour")} type="number" />
+    {/* <label htmlFor="plnPerHour">PLN per Hour</label>
+    <input id="plnPerHour" {...register("plnPerHour")} type="number" /> */}
+    <label htmlFor="eurPerHour">EUR per Hour</label>
+    <input id="eurPerHour" {...register("eurPerHour")} type="number" />
     <br />
     <div>
       <label htmlFor="reduction">Reductions</label>

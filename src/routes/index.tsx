@@ -17,7 +17,6 @@ const FetchByRouter = withRouterLoader(FreeApisTable);
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
       <Route
         path="/"
         element={
@@ -41,7 +40,6 @@ const router = createBrowserRouter(
         <Route path="contact" element={<p>Contact</p>} />
         <Route path="pdf" element={<PdfModule />} />
       </Route>
-    </>
   )
 );
 

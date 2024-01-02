@@ -1,4 +1,4 @@
-export function fetchApi(url: string) {
+export function fetchApi<T>(url: string) {
   return async function () {
     return await fetch(url)
       .then((data) => data.json())

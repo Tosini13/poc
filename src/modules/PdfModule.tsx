@@ -17,6 +17,7 @@ import InvoiceForm from "../components/pdf/InvoiceForm";
 import { useForm } from "react-hook-form";
 import { FormType } from "../components/pdf/types";
 import { useNbpRate } from "../components/pdf/useNbpRate";
+import { useEffect } from "react";
 
 const styles = StyleSheet.create({
   page: {
@@ -87,36 +88,46 @@ const DEFAULT_FORM_DATA: FormType = {
   dateOfIssue: new Date().toLocaleDateString("en-CA"),
   workedHours: 160,
   reductions: [
-    {
-      id: crypto.randomUUID(),
-      title: "Medicover Sport",
-      value: 77,
-    },
+    // {
+    //   id: crypto.randomUUID(),
+    //   title: "Medicover Sport",
+    //   value: 77,
+    // },
   ],
-  plnPerHour: 90,
+  // plnPerHour: 90,
+  eurPerHour: 30,
+  invoiceNumber: getInvoiceNumberByMonth(new Date())
 };
+
+
+const CURRENCY = "EUR"; // "USD"
 
 type PdfModulePropsType = {};
 
 const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
-  const { data } = useNbpRate("USD");
-  const nbpRate = data?.rates[0].mid ?? 0;
+
   /**
    * @todo increase lib to es2021 - to use replaceAll
    * 14 651,00 PLN
    */
-  const invoiceNumber = getInvoiceNumberByMonth(new Date(DATE_OF_ISSUE));
+  // const invoiceNumber = getInvoiceNumberByMonth(new Date(DATE_OF_ISSUE));
 
   const { register, handleSubmit, watch, getValues, setValue } =
     useForm<FormType>({
       defaultValues: DEFAULT_FORM_DATA,
     });
 
-  const plnPerHour = watch("plnPerHour");
+  // const plnPerHour = watch("plnPerHour");
+  const eurPerHour = watch("eurPerHour");
   const workedHours = watch("workedHours");
   const reduction = watch("reductions");
   const dateOfIssue = watch("dateOfIssue");
+  const invoiceNumber = watch("invoiceNumber");
 
+
+  const { data } = useNbpRate(CURRENCY, dateOfIssue); // "USD"
+  const nbpRate = data?.rates[0].mid ?? 0;
+  
   return (
     <div
       data-testid="pdf_module"
@@ -146,11 +157,14 @@ const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
         <PDFDownloadLink
           document={
             <Invoice
+              currency={CURRENCY}
               reduction={reduction}
-              plnPerHour={plnPerHour}
+              // plnPerHour={plnPerHour}
+              eurPerHour={eurPerHour}
               workedHours={workedHours}
               nbpRate={nbpRate}
               dateOfIssue={dateOfIssue}
+              invoiceNumber={invoiceNumber}
             />
           }
           fileName={`Jakub_Bartosik_FS_${invoiceNumber}_invoice_${dateFormat(
@@ -175,11 +189,14 @@ const PdfModule: React.FC<PdfModulePropsType> = ({}) => {
         >
           <PDFViewer height={"100%"} width={"100%"}>
             <Invoice
+              currency={CURRENCY}
               reduction={reduction}
-              plnPerHour={plnPerHour}
+              // plnPerHour={plnPerHour}
+              eurPerHour={eurPerHour}
               workedHours={workedHours}
               nbpRate={nbpRate}
               dateOfIssue={dateOfIssue}
+              invoiceNumber={invoiceNumber}
             />
           </PDFViewer>
         </div>

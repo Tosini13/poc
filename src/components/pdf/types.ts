@@ -10,8 +10,10 @@ export type ReductionType = {
 };
 
 export type FormType = {
+  invoiceNumber: number;
   dateOfIssue: string;
   workedHours: number;
   reductions: ReductionType[];
-  plnPerHour: number;
+  // plnPerHour: number;
+  eurPerHour: number;
 };
